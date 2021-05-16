@@ -12,6 +12,7 @@ import plotly
 from sklearn import preprocessing
 import numpy as np
 import tensorflow as tf
+#import keras
 
 import dash
 from dash.dependencies import Input, Output
@@ -21,7 +22,7 @@ import dash_bootstrap_components as dbc
 
 import dash_table
 import pandas as pd
-from jupyter_dash import JupyterDash
+#from jupyter_dash import JupyterDash
 # import dash_labs as dl
 
 basic_length=60
@@ -37,6 +38,7 @@ def prepare_figure_data(excel_docu='', model='', basic_length='', prediction_len
                       index_col=0, skiprows=3,)
     # model = tf.keras.models.load_model('/home/alex/LSTM_STOCK_minutes_multiple10.h5')
     model = tf.keras.models.load_model (model)
+#    model = keras.models.load_model (model)
 #     model= model
 #     N=60 #训练的个数
 #     M=10 #预测的个数
@@ -160,13 +162,13 @@ def get_figure(df3='', dataset='', training_length='', basic_length='', predicti
 
 
 data_daily =prepare_figure_data(
-            excel_docu= '/home/alex/510050raw_day.xlsx',
-             model='/home/alex/LSTM_STOCK_daily_multiple10.h5', 
+            excel_docu= '510050raw_day.xlsx',
+             model='LSTM_STOCK_daily_multiple10.h5', 
              basic_length=60, prediction_length=10)
  
 data_1minute = prepare_figure_data(
-            excel_docu= '/home/alex/510050raw_minutes.xlsx',
-            model='/home/alex/LSTM_STOCK_minutes_multiple10.h5',         
+            excel_docu= '510050raw_minutes.xlsx',
+            model='LSTM_STOCK_minutes_multiple10.h5',         
             basic_length=60, prediction_length=10)
                 
 data_daily=list(data_daily)
@@ -189,7 +191,7 @@ data_1minute= list(data_1minute)
 # In[5]:
 
 
-app = JupyterDash(__name__, 
+app = dash.Dash(__name__, 
                 external_stylesheets=[dbc.themes.BOOTSTRAP],
                meta_tags=[{'name': 'viewport',
                          'content': 'width=device-width, inital-scale=1.0'}])
@@ -328,18 +330,6 @@ def figure_update(i, slider_value, data_dict):
 
 if __name__ == '__main__':
 #     server= app.server()
-    app.run_server(mode = 'jupyterlab', debug=True)
+    app.run_server(debug=True)
 
-
-# In[8]:
-
-
-# a= list((1,2,3))
-# a
-
-
-# In[9]:
-
-
-get_ipython().run_line_magic('tb', '')
 
